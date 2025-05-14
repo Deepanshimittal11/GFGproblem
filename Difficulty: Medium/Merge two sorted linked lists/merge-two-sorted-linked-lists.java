@@ -87,32 +87,25 @@ public class Main {
 class Solution {
     Node sortedMerge(Node head1, Node head2) {
         // code here
-        Node temp1 = head1;
-        Node temp2 = head2;
-        Node dummy = new Node(0);
-        Node temp = dummy;
-        while(temp1!=null && temp2!=null){
-            if(temp1.data<=temp2.data){
-                temp.next = temp1;
-                temp = temp1;
-                temp1 = temp1.next;
+        Node newnode = new Node(0);
+        Node temp = newnode;
+        
+        Node t1 = head1;
+        Node t2 = head2;
+        while(t1!=null && t2!=null){
+            if(t1.data<=t2.data){
+                temp.next = t1;
+                temp = t1;
+                t1 = t1.next;
             }
             else{
-                temp.next = temp2;
-                temp = temp2;
-                temp2 = temp2.next;
+                temp.next = t2;
+                temp = t2;
+                t2 = t2.next;
             }
         }
-        if(temp1!=null){
-            temp.next = temp1;
-            temp = temp1;
-            temp1 = temp1.next;
-        }
-        else{
-            temp.next = temp2;
-            temp = temp2;
-            temp2 = temp2.next;
-        }
-        return dummy.next;
+        if(t1!=null) temp.next = t1;
+        else temp.next = t2;
+        return newnode.next;
     }
 }

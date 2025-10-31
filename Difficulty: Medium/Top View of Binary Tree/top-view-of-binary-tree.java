@@ -1,47 +1,54 @@
 /*
-class Node{
+class Node {
     int data;
-    Node left;
-    Node right;
-    Node(int data){
-        this.data = data;
-        left=null;
-        right=null;
+    Node left, right;
+
+    Node(int val) {
+        this.data = val;
+        this.left = null;
+        this.right = null;
     }
 }
 */
-
 class Solution {
-    // Function to return a list of nodes visible from the top view
-    // from left to right in Binary Tree.
-    static ArrayList<Integer> topView(Node root) {
+    static class pair{
+        Node node;
+        int pos;
+        pair(Node node, int pos){
+            this.node = node;
+            this.pos = pos;
+        }
+    }
+    public ArrayList<Integer> topView(Node root) {
         // code here
-        if(root==null) return null;
-        Map<Integer, Integer> map = new TreeMap<>();
-        Queue<Integer> hds = new LinkedList<>();
-        Queue<Node> nodes = new LinkedList<>();
-        nodes.add(root);
-        hds.add(0);
-        while(!nodes.isEmpty()){
-            Node current = nodes.remove();
-            int hd = hds.remove();
-            
-            if(!map.containsKey(hd)){
-                map.put(hd, current.data);
+        ArrayList<Integer> res = new ArrayList<>();
+        
+        if(root==null) return res;
+        
+        Queue<pair> q = new LinkedList<>();
+        Map<Integer, Integer> mpp = new TreeMap<>();
+        
+        q.offer(new pair(root,0));
+        
+        while(!q.isEmpty()){
+            pair p = q.poll();
+            Node curr = p.node;
+            int num = p.pos;
+            if(!mpp.containsKey(num)){
+                mpp.put(num, curr.data);
             }
-            if(current.left!=null){
-                nodes.add(current.left);
-                hds.add(hd-1);
-            }
-            if(current.right!=null){
-                nodes.add(current.right);
-                hds.add(hd+1);
-            }
+            if(curr.left != null) q.offer(new pair(curr.left, num-1));
+            if(curr.right != null) q.offer(new pair(curr.right, num+1));
         }
-        ArrayList<Integer> result = new ArrayList<>();
-        for(int val : map.values()){
-            result.add(val);
-        }
-        return result;
+        for(int val : mpp.values()) res.add(val);
+        return res;
     }
 }
+
+
+
+
+
+
+
+

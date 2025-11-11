@@ -25,5 +25,6 @@ class Solution {
         ans.add(sumMax);
         
         return ans;
+        // return nw ArrayList<Integer>(Arrays.asList(mincost, maxcost));
     }
 }

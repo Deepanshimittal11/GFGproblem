@@ -1,58 +1,35 @@
-class disjoint{
-    int[] parent, rank;
-    
-    disjoint(int n){
-        parent = new int[n];
-        rank = new int[n];
-        
-        for(int i=1;i<n;i++){
-            parent[i] = i;
-            rank[i] = 0;
-        }
-    }
-    
-    int find(int x){
-        if(parent[x] == x) return x;
-        return parent[x] = find(parent[x]);
-    }
-    
-    void unionset(int x, int y){
-        int px = find(x);
-        int py = find(y);
-        
-        if(px==py) return;
-        
-        if(parent[px]<parent[py]) parent[px]=py;
-        else if(parent[py]<parent[px]) parent[py]=px;
-        else{
-            parent[py] = px;
-            rank[px]++;
-        }
-    }
-}
-
 class Solution {
     public int spanningTree(int V, int[][] edges) {
         // code here
-        //sort array by their weight.
-        Arrays.sort(edges, (a,b) -> (a[2]-b[2]));
-        
-        disjoint ds = new disjoint(V);
-        int finalwght = 0;
-        int cnt = 0;
-        
-        for(int[] edge : edges){
-            int u = edge[0];
-            int v = edge[1];
-            int wt = edge[2];
-            
-            if(ds.find(u) != ds.find(v)){
-                ds.unionset(u,v);
-                finalwght += wt;
-                cnt++;
-            }
-            if(cnt == V-1) break;
+        ArrayList<ArrayList<int[]>> adj = new ArrayList<>();
+        for(int i=0;i<V;i++){
+            adj.add(new ArrayList<>());
         }
-        return finalwght;
+        for(int[] e : edges){
+            adj.get(e[0]).add(new int[]{e[1],e[2]});
+            adj.get(e[1]).add(new int[]{e[0],e[2]});
+        }
+        
+        int[] vis = new int[V];
+        int sum = 0;
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a,b) -> a[0]-b[0]);
+        pq.add(new int[]{0,0}); // {wt,node}
+        
+        while(pq.size()>0){
+            int[] curr = pq.poll();
+            int wt = curr[0];
+            int node = curr[1];
+            
+            if(vis[node]==1) continue; //already visited.
+            vis[node] = 1; //marks it as visited.
+            sum += wt;
+            
+            for(int[] i : adj.get(node)){
+                int newWt = i[1];
+                int adjnode = i[0];
+                if(vis[adjnode]==0) pq.add(new int[]{newWt, adjnode});
+            }
+        }
+        return sum;
     }
 }

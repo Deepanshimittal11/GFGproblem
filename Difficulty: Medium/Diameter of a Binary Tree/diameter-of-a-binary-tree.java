@@ -18,13 +18,10 @@ class Solution {
         return diameter;
     }
     public int height(Node root){
-        if(root == null) return -1;
-        
-        int leftnode = height(root.left);
-        int rightnode = height(root.right);
-        
-        int dia = leftnode+rightnode+2;
-        diameter = Math.max(diameter, dia);
-        return 1+Math.max(leftnode, rightnode);
+        if(root == null) return 0;
+        int left = height(root.left);
+        int right = height(root.right);
+        diameter = Math.max(diameter, left+right);
+        return 1+Math.max(left, right);
     }
 }

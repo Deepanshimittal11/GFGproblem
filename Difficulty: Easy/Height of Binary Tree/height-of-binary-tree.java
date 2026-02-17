@@ -15,8 +15,8 @@ class Solution {
     public int height(Node root) {
         // code here
         if(root == null) return -1;
-        int leftnode = height(root.left);
-        int rightnode = height(root.right);
-        return 1+Math.max(leftnode, rightnode);
+        int left = height(root.left);
+        int right = height(root.right);
+        return 1+Math.max(left, right);
     }
 }

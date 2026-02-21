@@ -1,12 +1,15 @@
 class Solution {
     public char nonRepeatingChar(String s) {
         // code here
-        char[] freq = new char[26];
-        for(char ch : s.toCharArray()){
-            freq[ch - 'a']++;
+        HashMap<Character, Integer> mpp = new HashMap<>();
+        int n = s.length();
+        for(int i=0;i<n;i++){
+            char ch = s.charAt(i);
+            mpp.put(ch, mpp.getOrDefault(ch, 0)+1);
         }
-        for(char ch : s.toCharArray()){
-             if(freq[ch-'a'] == 1) return ch;
+        
+        for(int i=0;i<n;i++){
+            if(mpp.get(s.charAt(i))==1) return s.charAt(i);
         }
         return '$';
     }

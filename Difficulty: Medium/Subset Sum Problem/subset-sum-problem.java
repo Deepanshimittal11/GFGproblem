@@ -1,20 +1,24 @@
 class Solution {
-
     static Boolean isSubsetSum(int arr[], int sum) {
         // code here
-        int n = arr.length;
-        boolean[][] dp = new boolean[n+1][sum+1];
-        for(int i=0;i<=n;i++) dp[i][0] = true;
-        for(int i=1;i<=n;i++){
-            for(int j=1;j<=sum;j++){
-                if(j>=arr[i-1]){
-                    dp[i][j] = dp[i-1][j-arr[i-1]] || dp[i-1][j];
-                }
-                else{
-                    dp[i][j] = dp[i-1][j];
-                }
-            }
+        return isValid(0, arr, sum, 0);
+    }
+    
+    static boolean isValid(int i, int[] arr, int sum, int target){
+        if(target == sum){
+            return true;
         }
-        return dp[n][sum];
+        
+        if(i == arr.length || target > sum){
+            return false;
+        }
+        
+        //pick
+        if(isValid(i+1, arr, sum, target+arr[i])){
+            return true;
+        }
+        
+        //not pick
+        return isValid(i+1, arr, sum, target);
     }
 }

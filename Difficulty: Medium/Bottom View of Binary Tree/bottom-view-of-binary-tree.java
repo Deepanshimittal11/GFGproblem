@@ -11,42 +11,59 @@ class Node {
     }
 }
 */
-
-class Solution {
-    static class pair{
-        Node node;
-        int pos;
-        pair(Node node, int pos){
-            this.node = node;
-            this.pos = pos;
-        }
-    }
-    public ArrayList<Integer> bottomView(Node root) {
-        // code here
-        //treemap stores unique key in sorted order 
-        //so for bottom view we'll update the key value 
-        //like first it'll store 1 node but when 5 comes
-        //it will update the node 1 to 5.
-        ArrayList<Integer> res = new ArrayList<>();
-        Map<Integer, Integer> mpp = new TreeMap<>();
-        Queue<pair> q = new LinkedList<>();
-        
-        if(root==null) return res;
-        
-        q.offer(new pair(root, 0));
-        while(!q.isEmpty()){
-            pair p = q.poll();
-            Node curr = p.node;
-            int num = p.pos;
-            
-            mpp.put(num, curr.data);
-            
-            if(curr.left != null) q.offer(new pair(curr.left, num-1));
-            if(curr.right != null) q.offer(new pair(curr.right, num+1));
-        }
-        
-        for(int val : mpp.values()) res.add(val);
-        
-        return res;
+class Tuple{
+    Node node;
+    int row;
+    public Tuple(Node node, int row){
+        this.node = node;
+        this.row = row;
     }
 }
+class Solution {
+    public ArrayList<Integer> bottomView(Node root) {
+        // code here
+        ArrayList<Integer> ans = new ArrayList<>();
+        if(root == null) return ans;
+        
+        TreeMap<Integer, Integer> mpp = new TreeMap<>();
+        Queue<Tuple> q = new LinkedList<>();
+        q.offer(new Tuple(root, 0));
+        
+        while(!q.isEmpty()){
+            Tuple tuple = q.poll();
+            Node node = tuple.node;
+            int x = tuple.row;
+            
+            if(!mpp.containsKey(x)){
+                mpp.put(x, node.data);
+            }
+            else{
+                mpp.put(x, node.data);
+            }
+            
+            if(node.left != null) q.offer(new Tuple(node.left, x-1));
+            if(node.right != null) q.offer(new Tuple(node.right, x+1));
+        }
+        for(int val : mpp.values()){
+            ans.add(val);
+        }
+        return ans;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

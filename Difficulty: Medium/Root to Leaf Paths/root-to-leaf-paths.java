@@ -19,42 +19,22 @@ class Node
 class Solution {
     public static ArrayList<ArrayList<Integer>> Paths(Node root) {
         // code here
-        ArrayList<ArrayList<Integer>> res = new ArrayList<>();
-        if(root==null) return res;
-        dfs(root,new ArrayList<Integer>(), res);
-        return res;
+        ArrayList<ArrayList<Integer>> ans = new ArrayList<>();
+        List<Integer> list = new ArrayList<>();
+        helper(root, list, ans);
+        return ans;
     }
-    public static void dfs(Node root, ArrayList<Integer> path, ArrayList<ArrayList<Integer>> res){
-        // ArrayList<Integer> ans = new ArrayList<>();
-        if(root==null) return;
-        path.add(root.data);
+    public static void helper(Node root, List<Integer> list, ArrayList<ArrayList<Integer>> ans){
+        if(root == null) return;
         
-        if(root.left==null && root.right==null){
-            res.add(new ArrayList<>(path));
-        }else{
-            dfs(root.left, path, res);
-            dfs(root.right, path, res);
+        list.add(root.data);
+        
+        if(root.left==null && root.right==null) ans.add(new ArrayList<>(list));
+        else{
+            helper(root.left, list, ans);
+            helper(root.right, list,ans);
         }
-        path.remove(path.size()-1);
+        
+        list.remove(list.size()-1);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,18 +1,15 @@
 class Solution {
     public int towerOfHanoi(int n, int from, int to, int aux) {
         // code here
-        //from - a
-        //to - c
-        //aux - b
-        if(n==1){
-            return 1;
-        }
-        // phle to hm a->b using c
+        int a = from, b = to, c = aux;
         int cnt = 0;
-        cnt += towerOfHanoi(n-1, from, aux, to);
+        
+        if(n == 1) return 1;
+        
+        cnt += towerOfHanoi(n-1, a, c, b);
         cnt++;
-        //fir b->c using a
-        cnt += towerOfHanoi(n-1, aux, to, from);
+        cnt += towerOfHanoi(n-1, c, b, a);
+        
         return cnt;
     }
 }
